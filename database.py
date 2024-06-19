@@ -1,5 +1,5 @@
 import sqlite3
-from store import Inventario, Objetos
+from storage import Inventario, Objetos
 
 def init_db():
     conn = sqlite3.connect('game_data.db')
@@ -44,7 +44,24 @@ def get_inventory(id):
     cursor.execute('SELECT * FROM inventory WHERE id = ?', (id,))
     inventory = cursor.fetchone()
     conn.close()
-    return inventory
+    
+    objects = get_objects_by_inventory(inventory[0])
+    
+    return Inventario(inventory[0], objects, inventory[1])
+
+def get_all_inventories():
+    conn = sqlite3.connect('game_data.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM inventory')
+    inventories_fetch = cursor.fetchall()
+    
+    inventories = []
+    for inventory in inventories_fetch:
+        objects = get_objects_by_inventory(inventory[0])
+        inventories.append(Inventario(inventory[0], objects, inventory[1]))
+    
+    conn.close()
+    return inventories
 
 def update_inventory(id, status):
     conn = sqlite3.connect('game_data.db')
@@ -59,7 +76,14 @@ def delete_inventory(id):
     cursor.execute('DELETE FROM inventory WHERE id = ?', (id,))
     conn.commit()
     conn.close()
-    
+
+def any_inventory_exists():
+    conn = sqlite3.connect('game_data.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM inventory')
+    inventory = cursor.fetchone()
+    conn.close()
+    return inventory is not None
 
 def add_object(name, img, inventory_id):
     conn = sqlite3.connect('game_data.db')
@@ -69,16 +93,22 @@ def add_object(name, img, inventory_id):
 
     object_id = cursor.lastrowid
     cursor.execute('SELECT * FROM objects WHERE id = ?', (object_id,))
-    new_object = cursor.fetchone()
+    object = cursor.fetchone()
 
     conn.close()
-    return Objetos(object_id[0], object_id[1], object_id[2], object_id[3])
+    return Objetos(object[0], object[1], object[2], object[3])
 
-def get_objects():
+def get_all_objects():
     conn = sqlite3.connect('game_data.db')
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM objects')
-    objects = cursor.fetchall()
+    objects_fetch = cursor.fetchall()
+    
+    objects = []
+    
+    for object in objects_fetch:
+        objects.append(Objetos(object[0], object[1], object[2], object[3]))
+    
     conn.close()
     return objects
 
@@ -86,9 +116,22 @@ def get_objects_by_inventory(inventory_id):
     conn = sqlite3.connect('game_data.db')
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM objects WHERE inventory_id = ?', (inventory_id,))
-    objects = cursor.fetchall()
+    objects_fetch = cursor.fetchall()
     conn.close()
+    
+    objects = []
+    for object in objects_fetch:
+        objects.append(Objetos(object[0], object[1], object[2], object[3]))
+    
     return objects
+
+def get_object(id):
+    conn = sqlite3.connect('game_data.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM objects WHERE id = ?', (id,))
+    object = cursor.fetchone()
+    conn.close()
+    return Objetos(object[0], object[1], object[2], object[3])
     
 def delete_object(id):
     conn = sqlite3.connect('game_data.db')

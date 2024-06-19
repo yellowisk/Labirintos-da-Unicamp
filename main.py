@@ -1,10 +1,7 @@
 import pygame
 import sys
-import os
 import database
 from img import images as img
-from store import Inventario as inv
-from store import Objetos as obj
 
 pygame.init()
 
@@ -17,7 +14,7 @@ for x in l:
     lab.append(linha)
 l.close()
 
-screen = pygame.display.set_mode((1920, 1011))
+screen = pygame.display.set_mode((1320, 511))
 
 x, y = screen.get_size()   
 
@@ -61,7 +58,10 @@ database.init_db()
 
 vidas=[1,1,1]
 #Inventário
-inventario=database.add_inventory(0)
+if not database.any_inventory_exists():
+    inventario=database.add_inventory(0)
+else:
+    inventario=database.get_inventory(1)
 
 print(inventario.status)
 
@@ -105,10 +105,13 @@ while running:
                 bomba_rectp.center, bomba_rectg.center=player_rect.center,player_rect.center
                 bomba_anim=True
             elif event.key == pygame.K_i:
+                print(database.get_all_inventories())
                 if inventario.status==0:
                     inventario._status=1
+                    database.update_inventory(inventario.id, 1)
                 else:
                     inventario._status=0
+                    database.update_inventory(inventario.id, 0)
             
 
 
@@ -155,7 +158,7 @@ while running:
             player_rect.center=(1,1)
             tempo_morte=0
             morte=False
-            player_img = pygame.transform.scale(img.baixo_img,(28,40))
+            player_img = pygame.transform.scale(img.baixo_img,(100,100))
 
 
     #Encontrou a saída
