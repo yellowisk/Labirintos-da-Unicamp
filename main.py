@@ -63,7 +63,7 @@ if not database.any_inventory_exists():
 else:
     inventario=database.get_inventory(1)
 
-print(inventario.status)
+print(inventario.objects, len(inventario.objects))
 
 
 running = True
@@ -105,7 +105,7 @@ while running:
                 bomba_rectp.center, bomba_rectg.center=player_rect.center,player_rect.center
                 bomba_anim=True
             elif event.key == pygame.K_i:
-                print(database.get_all_inventories())
+                inventario.add_obj(database.add_object('bomba', 'img/bomba.png', inventario.id))
                 if inventario.status==0:
                     inventario._status=1
                     database.update_inventory(inventario.id, 1)

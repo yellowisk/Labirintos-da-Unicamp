@@ -1,9 +1,12 @@
-class Objetos():
-    def __init__(self, id, nome, img, inventory_id):
+class Object():
+    def __init__(self, id, name, img, inventory_id):
         self._id = id
-        self._nome = nome
+        self._name = name
         self._img = img
         self._inventory_id = inventory_id
+   
+    def __repr__(self) -> str:
+        return f'{self._name}'
 
     @property
     def id(self):
@@ -14,12 +17,12 @@ class Objetos():
         self._id = id    
 
     @property
-    def nome(self):
-        return self._nome
+    def name(self):
+        return self._name
     
-    @nome.setter
-    def nome(self, nome):
-        self.nome = nome
+    @name.setter
+    def name(self, name):
+        self.name = name
 
     @property
     def img(self):
@@ -38,10 +41,10 @@ class Objetos():
         self._inventory_id = id
 
     
-class Inventario():
-    def __init__(self, id, lista, status):
+class Inventory():
+    def __init__(self, id: int, objects: list, status: int):
         self._id = id
-        self._lista = lista
+        self._objects = objects
         self._status = status
     
     @property
@@ -53,19 +56,19 @@ class Inventario():
         self._id = id
 
     @property
-    def lista(self):
-        return self._lista
+    def objects(self):
+        return self._objects
     
-    @lista.setter
-    def lista(self, lista):
-        self._lista = lista
+    @objects.setter
+    def objects(self, objects):
+        self._objects = objects
 
     @property
     def status(self):
         return self._status
     
     @status.setter
-    def lista(self, status):
+    def status(self, status):
         self._status = status
 
     def change_status(self):
@@ -74,17 +77,17 @@ class Inventario():
         else:
             self._status = 0
 
-    def add_obj(self, objeto: Objetos):
-        if objeto._id in self._lista:
-            return
+    def add_obj(self, object: Object):
+        if object._id in self._objects:
+            print('Object already in inventory')
         else:
-            self._lista.append(objeto)
+            self._objects.append(object)
 
     def rem_obj(self, obj):
-        if obj not in self._lista:
+        if obj not in self._objects:
             return
         else:
-            for i in self._lista:
+            for i in self._objects:
                 if obj.id == i.id:
-                    self._lista.remove(i)
+                    self._objects.remove(i)
     
