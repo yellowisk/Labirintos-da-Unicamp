@@ -14,7 +14,7 @@ parede_img=pygame.image.load(os.path.join("img","parede.jpeg"))
 parede_img = pygame.transform.scale(parede_img,(GRID_SIZE,GRID_SIZE))
 
 bomba_img=pygame.image.load(os.path.join("img","bomba.png"))
-explosao_img=pygame.image.load(os.path.join("img","explo.png"))
+explosao_img=pygame.image.load(os.path.join("img","explosion.gif"))
 bomba_img = pygame.transform.scale(bomba_img,(GRID_SIZE,GRID_SIZE))
 explosao_img = pygame.transform.scale(explosao_img,(150,150))
 fundo_img=pygame.image.load(os.path.join("img","fundo.png"))
