@@ -14,7 +14,7 @@ for x in l:
     lab.append(linha)
 l.close()
 
-screen = pygame.display.set_mode((1320, 511))
+screen = pygame.display.set_mode((1920, 1011))
 
 x, y = screen.get_size()   
 
@@ -158,7 +158,7 @@ while running:
             player_rect.center=(1,1)
             tempo_morte=0
             morte=False
-            player_img = pygame.transform.scale(img.baixo_img,(100,100))
+            player_img = pygame.transform.scale(img.baixo_img,(28,40))
 
 
     #Encontrou a saída
