@@ -14,7 +14,8 @@ for x in l:
     lab.append(linha)
 l.close()
 
-screen = pygame.display.set_mode((1920, 1011))
+infoObject = pygame.display.Info()
+screen = pygame.display.set_mode((infoObject.current_w, infoObject.current_h))
 
 x, y = screen.get_size()   
 
