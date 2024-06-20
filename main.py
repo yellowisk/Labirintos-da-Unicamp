@@ -87,7 +87,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN:
-            if inventario.status==0:
+            if not inventario.is_open():
                 if event.key == pygame.K_LEFT:
                     player_img = pygame.transform.scale(img.esquerda_img,(28,40))
                     player_rect[0] -= GRID_SIZE
@@ -107,11 +107,11 @@ while running:
                 bomba_anim=True
             elif event.key == pygame.K_i:
                 inventario.add_obj(database.add_object('bomba', 'img/bomba.png', inventario.id))
-                if inventario.status==0:
-                    inventario._status=1
+                if not inventario.is_open():
+                    inventario.open()
                     database.update_inventory(inventario.id, 1)
                 else:
-                    inventario._status=0
+                    inventario.close()
                     database.update_inventory(inventario.id, 0)
             
 

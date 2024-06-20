@@ -70,12 +70,15 @@ class Inventory():
     @status.setter
     def status(self, status):
         self._status = status
-
-    def change_status(self):
-        if self._status == 0:
-            self._status = 1
-        else:
-            self._status = 0
+            
+    def is_open(self):
+        return self._status == 1
+    
+    def open(self):
+        self.status = 1
+        
+    def close(self):
+        self.status = 0
 
     def add_obj(self, object: Object):
         if object._id in self._objects:
